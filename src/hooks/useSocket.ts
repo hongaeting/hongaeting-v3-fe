@@ -13,11 +13,12 @@ type EnumEventName = typeof EVENT_NAME[keyof typeof EVENT_NAME];
 type SocketEventListener = [
   eventName: EnumEventName | string,
   // eslint-disable-next-line
-  eventListener: any
+  eventListener: (payload: any) => void
 ];
 
-// eslint-disable-next-line
-const useSocket = (listeners?: SocketEventListener[]): any => {
+const useSocket = (
+  listeners?: SocketEventListener[]
+): [SocketIOClient.Socket] => {
   const socket = useMemo(
     () =>
       io.connect(process.env.REACT_APP_SOCKET_URL as string, {

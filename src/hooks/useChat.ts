@@ -9,7 +9,6 @@ const CLIENT_EVENT = {
   LEFT_ROOM: 'leftRoom',
   MSG_TO_CLIENT: 'msgToClient',
 } as const;
-
 const SERVER_EVENT = {
   JOIN_ROOM: 'joinRoom',
   LEAVE_ROOM: 'leaveRoom',
@@ -20,16 +19,18 @@ type Info = {
   room: string;
   user: string;
 };
-
 type Message = {
   uuid: string;
   room: string;
   user: string;
   text: string;
 };
+type FuncSendMessage = (message: string) => void;
+type FuncChangeInfo = (info: Info) => void;
 
-// eslint-disable-next-line
-const useChat = (defaultInfo: Info): [Message[], any, any] => {
+const useChat = (
+  defaultInfo: Info
+): [Message[], FuncSendMessage, FuncChangeInfo] => {
   const admin = useMemo(() => 'admin', []);
   const [info, setInfo] = useState<Info>(defaultInfo);
   const [messages, setMessages] = useState<Message[]>([]);
