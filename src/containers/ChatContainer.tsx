@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useChat } from '../hooks';
 
 import { uuidV4 } from '../utils';
+import { useChat } from '../hooks';
 import './ChatContainer.css';
 
 export default function ChatContainer() {
