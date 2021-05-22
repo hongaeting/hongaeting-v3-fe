@@ -1,20 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import io from 'socket.io-client';
 import { debounce } from 'lodash';
-import './ChatContainer.css';
 
-/**
- * Generates ver.4 UUID
- * @returns {string} UUID - 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
- */
-export const uuidV4 = () => {
-  const [hexadecimals, delimiterIndex] = ['0123456789abcdef', [8, 13, 18, 23]];
-  return Array.from({ length: 36 }, (_, i) =>
-    delimiterIndex.includes(i)
-      ? '-'
-      : hexadecimals[Math.floor(Math.random() * hexadecimals.length)]
-  ).join('');
-};
+import { useSocket } from '../hooks';
+import { uuidV4 } from '../utils';
+import './ChatContainer.css';
 
 type Message = {
   uuid: string;
@@ -29,13 +18,38 @@ type Info = {
 };
 
 export default function ChatContainer() {
-  const socket = useMemo(
-    () =>
-      io.connect('http://localhost:4000/chats', {
-        transports: ['websocket'],
-      }),
-    []
-  );
+  const [socket] = useSocket([
+    [
+      'joinedRoom',
+      (joinedRoom: string) =>
+        setMessages((_messages) => [
+          ..._messages,
+          {
+            uuid: uuidV4(),
+            room: joinedRoom,
+            user: admin,
+            text: `${joinedRoom} 방에 입장했습니다.`,
+          },
+        ]),
+    ],
+    [
+      'leftRoom',
+      (leftRoom: string) =>
+        setMessages((_messages) => [
+          ..._messages,
+          {
+            uuid: uuidV4(),
+            room: leftRoom,
+            user: admin,
+            text: `${leftRoom} 방을 퇴장했습니다.`,
+          },
+        ]),
+    ],
+    [
+      'msgToClient',
+      (message: Message) => setMessages((_messages) => [..._messages, message]),
+    ],
+  ]);
   const admin = useMemo(() => 'admin', []);
   const [room, setRoom] = useState<string>('default');
   const [user, setUser] = useState<string>(`user-${uuidV4().slice(0, 8)}`);
@@ -73,39 +87,6 @@ export default function ChatContainer() {
       }),
     [socket, info]
   );
-
-  useEffect(() => {
-    socket.on('error', () => {});
-    socket.on('connect', () => {});
-    socket.on('connect_error', () => {});
-    socket.on('disconnect', () => {});
-    socket.on('joinedRoom', (joinedRoom: string) =>
-      setMessages((_messages) => [
-        ..._messages,
-        {
-          uuid: uuidV4(),
-          room: joinedRoom,
-          user: admin,
-          text: `${joinedRoom} 방에 입장했습니다.`,
-        },
-      ])
-    );
-    socket.on('leftRoom', (leftRoom: string) =>
-      setMessages((_messages) => [
-        ..._messages,
-        {
-          uuid: uuidV4(),
-          room: leftRoom,
-          user: admin,
-          text: `${leftRoom} 방을 퇴장했습니다.`,
-        },
-      ])
-    );
-    socket.on('msgToClient', (message: Message) =>
-      setMessages((_messages) => [..._messages, message])
-    );
-    // eslint-disable-next-line
-  }, []);
 
   useEffect(() => {
     joinRoom(info);
