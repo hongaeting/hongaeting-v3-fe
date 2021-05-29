@@ -12,7 +12,7 @@ type EnumEventName = typeof EVENT_NAME[keyof typeof EVENT_NAME];
 
 type SocketEventListener = [
   eventName: EnumEventName | string,
-  // eslint-disable-next-line
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   eventListener: (payload: any) => void
 ];
 
@@ -31,7 +31,7 @@ const useSocket = (
     listeners?.forEach(([event, listener]) => {
       socket.on(event, listener);
     });
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [socket];

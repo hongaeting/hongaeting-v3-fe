@@ -35,7 +35,7 @@ const useChat = (
   const [info, setInfo] = useState<Info>(defaultInfo);
   const [messages, setMessages] = useState<Message[]>([]);
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const changeInfo = useCallback(debounce(setInfo, 500), []);
 
   const [socket] = useSocket([
@@ -109,7 +109,7 @@ const useChat = (
     return () => {
       leaveRoom(info);
     };
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [info]);
 
   return [messages, sendMessage, changeInfo];
