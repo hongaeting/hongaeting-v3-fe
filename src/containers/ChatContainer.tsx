@@ -10,13 +10,13 @@ export default function ChatContainer() {
   const [text, setText] = useState<string>('');
   const [messages, sendMessage, changeInfo] = useChat({ room, user });
 
-  const handleChagneRoom: React.ChangeEventHandler<HTMLInputElement> = ({
+  const handleChangeRoom: React.ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
   }) => setRoom(value);
-  const handleChagneUser: React.ChangeEventHandler<HTMLInputElement> = ({
+  const handleChangeUser: React.ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
   }) => setUser(value);
-  const handleChagneText: React.ChangeEventHandler<HTMLInputElement> = ({
+  const handleChangeText: React.ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
   }) => setText(value);
   const handleKeyUpText: React.KeyboardEventHandler<HTMLInputElement> = ({
@@ -37,7 +37,7 @@ export default function ChatContainer() {
           <input
             id="room"
             value={room}
-            onChange={handleChagneRoom}
+            onChange={handleChangeRoom}
             onKeyUp={handleKeyUpInfp}
           />
         </label>
@@ -47,7 +47,7 @@ export default function ChatContainer() {
           <input
             id="user"
             value={user}
-            onChange={handleChagneUser}
+            onChange={handleChangeUser}
             onKeyUp={handleKeyUpInfp}
           />
         </label>
@@ -62,7 +62,7 @@ export default function ChatContainer() {
           <input
             id="text"
             value={text}
-            onChange={handleChagneText}
+            onChange={handleChangeText}
             onKeyUp={handleKeyUpText}
             placeholder="텍스트를 입력 후 Enter"
           />
