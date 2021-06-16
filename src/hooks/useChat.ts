@@ -38,38 +38,42 @@ const useChat = (
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const changeInfo = useCallback(debounce(setInfo, 500), []);
 
-  const [socket] = useSocket([
+  const [socket] = useSocket(
+    process.env.REACT_APP_CHAT_SOCKET_NAMESPACE as string,
     [
-      CLIENT_EVENT.JOINED_ROOM,
-      (joinedRoom: string) =>
-        setMessages((_messages) => [
-          ..._messages,
-          {
-            uuid: uuidV4(),
-            room: joinedRoom,
-            user: admin,
-            text: `${joinedRoom} 방에 입장했습니다.`,
-          },
-        ]),
-    ],
-    [
-      CLIENT_EVENT.LEFT_ROOM,
-      (leftRoom: string) =>
-        setMessages((_messages) => [
-          ..._messages,
-          {
-            uuid: uuidV4(),
-            room: leftRoom,
-            user: admin,
-            text: `${leftRoom} 방을 퇴장했습니다.`,
-          },
-        ]),
-    ],
-    [
-      CLIENT_EVENT.MSG_TO_CLIENT,
-      (message: Message) => setMessages((_messages) => [..._messages, message]),
-    ],
-  ]);
+      [
+        CLIENT_EVENT.JOINED_ROOM,
+        (joinedRoom: string) =>
+          setMessages((_messages) => [
+            ..._messages,
+            {
+              uuid: uuidV4(),
+              room: joinedRoom,
+              user: admin,
+              text: `${joinedRoom} 방에 입장했습니다.`,
+            },
+          ]),
+      ],
+      [
+        CLIENT_EVENT.LEFT_ROOM,
+        (leftRoom: string) =>
+          setMessages((_messages) => [
+            ..._messages,
+            {
+              uuid: uuidV4(),
+              room: leftRoom,
+              user: admin,
+              text: `${leftRoom} 방을 퇴장했습니다.`,
+            },
+          ]),
+      ],
+      [
+        CLIENT_EVENT.MSG_TO_CLIENT,
+        (message: Message) =>
+          setMessages((_messages) => [..._messages, message]),
+      ],
+    ]
+  );
 
   const joinRoom = useCallback(
     ({ room, user }: Info) =>
