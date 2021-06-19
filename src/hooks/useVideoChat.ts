@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
+import Peer from 'peerjs';
 import { useEffect, useState } from 'react';
 import useSocket from './useSocket';
 
 type VideoChatConnectionInfo = {
   roomid: number;
-  userid: string;
 };
 
 type EventPayload = {
@@ -12,8 +13,8 @@ type EventPayload = {
 
 const useVideoChat = ({
   roomid,
-  userid,
-}: VideoChatConnectionInfo): [SocketIOClient.Socket, string[]] => {
+}: VideoChatConnectionInfo): [MediaStream | null, string[], string] => {
+  const [peer, setPeer] = useState<Peer | null>(null);
   const [messages, setMessages] = useState<string[]>([]);
   const [socket] = useSocket(
     process.env.REACT_APP_VIDEO_CHAT_SOCKET_NAMESPACE as string,
@@ -22,30 +23,42 @@ const useVideoChat = ({
       [
         'member-change',
         (payload: EventPayload) => {
+          // messages가 초기화됨 계속..
           setMessages([...messages, payload.msg]);
         },
       ],
     ]
   );
-
-  const joinRoom = () => {
-    console.log(roomid, userid);
-    socket.emit('join-room', { roomid, userid });
-  };
-
-  const leaveRoom = () => {
-    socket.emit('user-left', { roomid, userid });
-  };
+  const [user, setUser] = useState<string>('');
+  const [myStream, setMyStream] = useState<MediaStream | null>(null);
 
   useEffect(() => {
-    console.log('join');
-    joinRoom();
+    const connectMyStream = async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      setMyStream(stream);
+    };
 
-    return leaveRoom();
+    if (!peer) {
+      setPeer(
+        new Peer(undefined, {
+          host: process.env.REACT_APP_PEER_SERVER_HOST,
+          port: parseInt(process.env.REACT_APP_PEER_SERVER_PORT || '', 10),
+        })
+      );
+    } else {
+      connectMyStream();
+      peer.on('open', (id: string) => {
+        socket.emit('join-room', { roomid, userid: id });
+        setUser(id);
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [peer]);
 
-  return [socket, messages];
+  return [myStream, messages, user];
 };
 
 export default useVideoChat;

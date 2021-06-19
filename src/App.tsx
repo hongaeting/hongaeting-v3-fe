@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 
-import { ChatContainer, VideoChatContainer } from './containers';
+import { ChatContainer } from './containers';
 import VideoChatRouter from './router/videoChatRouter';
 
 function App() {

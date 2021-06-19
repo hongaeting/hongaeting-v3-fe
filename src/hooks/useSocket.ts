@@ -30,8 +30,6 @@ const useSocket = (
   );
 
   useEffect(() => {
-    console.log('socket.on');
-    console.dir(socket);
     listeners?.forEach(([event, listener]) => {
       socket.on(event, listener);
     });
