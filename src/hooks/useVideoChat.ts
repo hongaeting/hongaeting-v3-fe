@@ -15,19 +15,18 @@ type CallReadyEventPayload = {
   isCallReady: boolean;
 };
 
-// type CallMate = {
-//   id: string;
-//   stream: MediaStream | null;
-// };
+type UserCallingData = {
+  id: string;
+  stream: MediaStream | null;
+  readyToCall?: boolean;
+};
 
 const useVideoChat = ({
   roomid,
 }: VideoChatConnectionInfo): [
-  MediaStream | null,
-  MediaStream | null,
+  UserCallingData,
+  UserCallingData,
   string[],
-  string,
-  string,
   boolean
 ] => {
   const myPeer = useMemo(
@@ -39,15 +38,17 @@ const useVideoChat = ({
     []
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [callMateId, setCallMateId] = useState<string>('');
   const [messages, setMessages] = useState<string[]>([]);
-  const [myStream, setMyStream] = useState<MediaStream | null>(null);
-  const [callMateStream, setCallMateStream] =
-    useState<MediaStream | null>(null);
-  const [otherUserReadyToCall, setOtherUserReadyToCall] =
-    useState<boolean>(false);
-
-  // const [callMate, setCallMate] = useState<CallMate>({ id: '', stream: null });
+  const [myCallingData, setMyCallingData] = useState<UserCallingData>({
+    id: '',
+    stream: null,
+    readyToCall: false,
+  });
+  const [mateCallingData, setMateCallingData] = useState<UserCallingData>({
+    id: '',
+    stream: null,
+    readyToCall: false,
+  });
 
   const [socket] = useSocket(
     process.env.REACT_APP_VIDEO_CHAT_SOCKET_NAMESPACE as string,
@@ -58,7 +59,8 @@ const useVideoChat = ({
         (payload: EventPayload) => {
           // messages가 초기화됨 계속..
           setMessages([...messages, payload.msg]);
-          setCallMateId(payload.userId);
+          // setCallMateId(payload.userId);
+          setMateCallingData({ ...mateCallingData, id: payload.userId });
         },
       ],
       [
@@ -71,9 +73,13 @@ const useVideoChat = ({
       [
         'user:call-ready',
         (payload: CallReadyEventPayload) => {
-          setOtherUserReadyToCall(payload.isCallReady);
-          if (myStream !== null) {
-            call(callMateId);
+          // setOtherUserReadyToCall(payload.isCallReady);
+          setMateCallingData({
+            ...mateCallingData,
+            readyToCall: payload.isCallReady,
+          });
+          if (myCallingData.stream !== null) {
+            call();
           }
         },
       ],
@@ -86,18 +92,22 @@ const useVideoChat = ({
       audio: true,
     });
 
-    setMyStream(stream);
+    setMyCallingData({ ...myCallingData, stream, id: myPeer.id });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const call = useCallback(
-    (otherUser: string) => {
-      if (myStream === null) return;
+    () => {
+      if (myCallingData.stream === null) return;
 
-      const peerConnection = myPeer.call(otherUser, myStream);
+      const peerConnection = myPeer.call(
+        mateCallingData.id,
+        myCallingData.stream
+      );
 
-      peerConnection.on('stream', (otherUserStream: MediaStream) => {
-        setCallMateStream(otherUserStream);
+      peerConnection.on('stream', (callMateStream: MediaStream) => {
+        // setCallMateStream(callMateStream);
+        setMateCallingData({ ...mateCallingData, stream: callMateStream });
         setIsLoading(false);
       });
 
@@ -106,7 +116,7 @@ const useVideoChat = ({
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [myStream]
+    [myCallingData.stream, mateCallingData.id]
   );
 
   useEffect(() => {
@@ -120,25 +130,25 @@ const useVideoChat = ({
   }, []);
 
   useEffect(() => {
-    if (myStream !== null) {
-      if (otherUserReadyToCall) {
-        call(callMateId);
+    if (myCallingData.stream !== null) {
+      if (mateCallingData.readyToCall) {
+        call();
       } else {
         socket.emit('call-ready');
 
         myPeer.on('call', (callConnection) => {
-          callConnection.answer(myStream);
+          callConnection.answer(myCallingData.stream ?? undefined);
 
-          callConnection.on('stream', (stream: MediaStream) => {
-            setCallMateStream(stream);
+          callConnection.on('stream', (callMateStream: MediaStream) => {
+            setMateCallingData({ ...mateCallingData, stream: callMateStream });
           });
         });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [myStream]);
+  }, [myCallingData.stream]);
 
-  return [myStream, callMateStream, messages, myPeer.id, callMateId, isLoading];
+  return [myCallingData, mateCallingData, messages, isLoading];
 };
 
 export default useVideoChat;
