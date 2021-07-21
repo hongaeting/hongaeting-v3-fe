@@ -1,0 +1,22 @@
+name: Deployment Workflow
+on:
+  push:
+    branches: [master]
+
+jobs:
+  job_one:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: testing omgneering.com server ssh connection
+        uses: appleboy/ssh-action@master
+        with:
+          host: ec2-52-78-75-232.ap-northeast-2.compute.amazonaws.com
+          username: 10000001a
+          key: ${{ secrets.AWS_ACCESS_KEY }}
+          port: 22
+          script: |
+            cd hongaeting-v3-fe
+            git pull origin master
+            sudo react build
+            sudo systemctl restart nginx
