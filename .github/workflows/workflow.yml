@@ -19,4 +19,3 @@ jobs:
             cd hongaeting-v3-fe
             git pull origin master
             sudo react build
-            sudo systemctl restart nginx
