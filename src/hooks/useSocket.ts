@@ -17,22 +17,25 @@ type SocketEventListener = [
 ];
 
 const useSocket = (
+  namespace: string,
   listeners?: SocketEventListener[]
 ): [SocketIOClient.Socket] => {
   const socket = useMemo(
     () =>
-      io.connect(process.env.REACT_APP_SOCKET_URL as string, {
+      io.connect((process.env.REACT_APP_SOCKET_URL as string) + namespace, {
         transports: ['websocket'],
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
   useEffect(() => {
+    socket.removeAllListeners();
     listeners?.forEach(([event, listener]) => {
       socket.on(event, listener);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [listeners]);
 
   return [socket];
 };
