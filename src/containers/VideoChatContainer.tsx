@@ -7,7 +7,7 @@ type VideoChatParams = { roomid: string };
 
 export default function VideoChatContainer() {
   const params: VideoChatParams = useParams();
-  const [myCallingData, mateCallingData, messages, isLoading] = useVideoChat({
+  const [myCallingData, mateCallingData, messages] = useVideoChat({
     roomid: params.roomid as unknown as number,
   });
 
