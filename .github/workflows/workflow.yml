@@ -17,5 +17,5 @@ jobs:
           port: 22
           script: |
             cd hongaeting-v3-fe
-            git pull origin master
+            git pull origin main
             npm build
