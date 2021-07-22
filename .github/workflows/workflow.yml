@@ -18,4 +18,6 @@ jobs:
           script: |
             cd hongaeting-v3-fe
             git pull origin main
+            source ~/.bashrc
+            npm -v
             npm run build
