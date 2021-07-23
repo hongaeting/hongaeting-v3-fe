@@ -18,6 +18,4 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cd hongaeting-v3-fe
-            git pull origin main
-            cat package.json
+            npm --help
