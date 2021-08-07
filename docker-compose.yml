@@ -1,0 +1,21 @@
+version: '3.8'
+
+networks:
+  default:
+    external:
+      name: hongaeting-v3-net
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      args:
+        - SSL_DIR=${SSL_DIR}
+        - SSL_FULL_CHAIN=${SSL_FULL_CHAIN}
+        - SSL_CERT=${SSL_CERT}
+        - SSL_OPTIONS=${SSL_OPTIONS}
+        - SSL_DHPARAMS=${SSL_DHPARAMS}
+    ports:
+      - 80:80
+    restart: always
