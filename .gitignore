@@ -25,3 +25,9 @@ yarn-error.log*
 
 # vscode
 .vscode
+
+# secret
+.secret
+
+# nginx
+/nginx
