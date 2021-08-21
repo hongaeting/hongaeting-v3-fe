@@ -28,6 +28,3 @@ yarn-error.log*
 
 # secret
 .secret
-
-# nginx
-/nginx
