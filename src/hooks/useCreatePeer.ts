@@ -8,7 +8,7 @@ const useCreatePeer = (): [Peer | null] => {
     setPeer(
       new Peer(undefined, {
         host: process.env.REACT_APP_PEER_SERVER_HOST,
-        // port: parseInt(process.env.REACT_APP_PEER_SERVER_PORT || '', 10),
+        port: parseInt(process.env.REACT_APP_PEER_SERVER_PORT || '', 10),
       })
     );
   }, []);
