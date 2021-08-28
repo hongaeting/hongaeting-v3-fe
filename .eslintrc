@@ -79,6 +79,7 @@
         "exports": "only-multiline",
         "functions": "never"
       }
-    ]
+    ],
+    "react/react-in-jsx-scope": "off",
   }
 }
