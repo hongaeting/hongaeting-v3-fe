@@ -1,18 +1,17 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
-
-import { ChatContainer } from './containers';
-import VideoChatRouter from './router/videoChatRouter';
+import { Route, Switch } from 'react-router-dom';
+import { ChatContainer } from 'containers';
+import IndexContainer from 'containers/index/IndexContainer';
+import AuthRouter from 'router/AuthRouter';
+import VideoChatRouter from 'router/videoChatRouter';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={ChatContainer} />
-        <VideoChatRouter />
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route path="/" exact component={ChatContainer} />
+      <Route path="/index" exact component={IndexContainer} />
+      <Route path="/auth" component={AuthRouter} />
+      <VideoChatRouter />
+    </Switch>
   );
 }
 

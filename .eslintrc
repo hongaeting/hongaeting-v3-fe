@@ -79,6 +79,9 @@
         "exports": "only-multiline",
         "functions": "never"
       }
-    ]
+    ],
+    "react/react-in-jsx-scope": "off",
+    "react/no-array-index-key": "off",
+    "react/require-default-props": "off"
   }
 }
