@@ -6,12 +6,11 @@ const StartServiceButton = styled(Button)`
   bottom: 60px;
   position: absolute;
 
-  width: calc(100% - 64px);
+  width: 100%;
   height: 56px;
 
   font-weight: bold;
   font-size: 16px;
-
   text-align: center;
 
   border: 1px solid #cccccc;

@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { Button, Container, Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import styled from '@emotion/styled';
-import Title from 'component/common/typography/Title';
-import Subtitle from 'component/common/typography/Subtitle';
 import { css } from '@emotion/react';
+import TitleTypography from 'component/common/typography/TitleTypography';
+import SubtitleTypography from 'component/common/typography/SubtitleTypography';
 import StartServiceButton from 'component/common/button/StartServiceButton';
 
 const IndexPageContainer = styled(Container)`
@@ -23,15 +23,15 @@ export default function IndexContainer() {
           height: 100%;
         `}
       >
-        <Title
+        <TitleTypography
           css={css`
             padding-top: 110px;
             width: 100%;
           `}
         >
           홍개팅
-        </Title>
-        <Subtitle
+        </TitleTypography>
+        <SubtitleTypography
           css={css`
             padding-top: 30px;
             width: 100%;
@@ -42,7 +42,7 @@ export default function IndexContainer() {
           나와 잘 맞는
           <br />
           대화 상대 찾아볼까요?
-        </Subtitle>
+        </SubtitleTypography>
         <StartServiceButton>홍익대 이메일로 시작하기</StartServiceButton>
       </Grid>
     </IndexPageContainer>
