@@ -12,15 +12,18 @@ import HelpTypography from 'component/common/typography/HelpTypography';
 import Subtitle from './Subtitle';
 
 interface IProfileFormProps {
-  subtitle: string[];
+  subtitle?: string[];
 }
 
 export default function ProfileForm({ subtitle }: IProfileFormProps) {
   return (
     <Grid container>
-      <Grid item>
-        <Subtitle content={subtitle} minHeight={34} />
-      </Grid>
+      {subtitle && (
+        <Grid item>
+          <Subtitle content={subtitle} minHeight={34} />
+        </Grid>
+      )}
+
       <Grid item xs={12}>
         <TextField
           variant="outlined"
