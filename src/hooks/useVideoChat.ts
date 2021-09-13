@@ -32,8 +32,9 @@ const useVideoChat = ({
   const myPeer = useMemo(
     () =>
       new Peer(undefined, {
-        host: '/',
+        host: process.env.REACT_APP_PEER_SERVER_HOST,
         port: parseInt(process.env.REACT_APP_PEER_SERVER_PORT || '', 10),
+        path: process.env.REACT_APP_PEER_SERVER_PATH,
       }),
     []
   );
