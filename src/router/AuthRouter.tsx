@@ -10,8 +10,8 @@ export default function AuthRouter() {
   return (
     <Grid>
       <TopBar />
-      <Switch>
-        <DefaultContainer maxWidth="sm">
+      <DefaultContainer maxWidth="sm">
+        <Switch>
           <Route
             exact
             path="/auth/signup/email"
@@ -28,8 +28,8 @@ export default function AuthRouter() {
             component={EmailCompleteContainer}
           />
           <Route exact path="/auth/signin" />
-        </DefaultContainer>
-      </Switch>
+        </Switch>
+      </DefaultContainer>
     </Grid>
   );
 }
