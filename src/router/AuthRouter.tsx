@@ -13,31 +13,31 @@ export default function AuthRouter() {
       <TopBar />
       <DefaultContainer maxWidth="sm">
         <Switch>
-            <Route
-              exact
-              path="/auth/signup/form"
-              component={EmailFormContainer}
-            />
-            <Route
-              exact
-              path="/auth/signup/receive"
-              component={EmailReceiveContainer}
-            />
-            <Route
-              exact
-              path="/auth/signup/complete"
-              component={EmailCompleteContainer}
-            />
-            <Route
-              exact
-              path="/auth/signin/form"
-              component={SignInFormContainer}
-            />
-            <Route
-              exact
-              path="/auth/signin/complete"
-              component={SignInFormContainer}
-            />
+          <Route
+            exact
+            path="/auth/signup/form"
+            component={EmailFormContainer}
+          />
+          <Route
+            exact
+            path="/auth/signup/receive"
+            component={EmailReceiveContainer}
+          />
+          <Route
+            exact
+            path="/auth/signup/complete"
+            component={EmailCompleteContainer}
+          />
+          <Route
+            exact
+            path="/auth/signin/form"
+            component={SignInFormContainer}
+          />
+          <Route
+            exact
+            path="/auth/signin/complete"
+            component={SignInFormContainer}
+          />
         </Switch>
       </DefaultContainer>
     </Grid>
