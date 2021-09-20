@@ -38,6 +38,7 @@ const useVideoChat = ({
       }),
     []
   );
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [messages, setMessages] = useState<string[]>([]);
   const [myCallingData, setMyCallingData] = useState<UserCallingData>({
