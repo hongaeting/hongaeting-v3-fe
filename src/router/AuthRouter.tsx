@@ -11,8 +11,8 @@ export default function AuthRouter() {
   return (
     <Grid>
       <TopBar />
-      <Switch>
-        <DefaultContainer maxWidth="sm">
+      <DefaultContainer maxWidth="sm">
+        <Switch>
           <Route
             exact
             path="/auth/signup/form"
@@ -38,8 +38,8 @@ export default function AuthRouter() {
             path="/auth/signin/complete"
             component={SignInFormContainer}
           />
-        </DefaultContainer>
-      </Switch>
+        </Switch>
+      </DefaultContainer>
     </Grid>
   );
 }

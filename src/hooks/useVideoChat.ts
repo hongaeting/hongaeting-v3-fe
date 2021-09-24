@@ -32,11 +32,13 @@ const useVideoChat = ({
   const myPeer = useMemo(
     () =>
       new Peer(undefined, {
-        host: '/',
+        host: process.env.REACT_APP_PEER_SERVER_HOST,
         port: parseInt(process.env.REACT_APP_PEER_SERVER_PORT || '', 10),
+        path: process.env.REACT_APP_PEER_SERVER_PATH,
       }),
     []
   );
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [messages, setMessages] = useState<string[]>([]);
   const [myCallingData, setMyCallingData] = useState<UserCallingData>({
