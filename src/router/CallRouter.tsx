@@ -10,13 +10,13 @@ export default function CallRouter() {
   return (
     <Grid>
       <TopBar />
-      <Switch>
-        <DefaultContainer maxWidth="sm">
+      <DefaultContainer maxWidth="sm">
+        <Switch>
           <Route exact path="/call/ready" component={CallReadyContainer} />
           <Route exact path="/call/make" component={CallMakeContainer} />
           <Route exact path="/call/receive" component={CallReceiveContainer} />
-        </DefaultContainer>
-      </Switch>
+        </Switch>
+      </DefaultContainer>
     </Grid>
   );
 }
