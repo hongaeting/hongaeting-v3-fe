@@ -1,11 +1,13 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import queryString from 'query-string';
 import RTCVideo from '../component/RTCVideo';
 import useVideoChat from '../hooks/useVideoChat';
 
 type VideoChatParams = { roomid: string };
 
 export default function VideoChatContainer() {
+  const { search } = useLocation();
   const params: VideoChatParams = useParams();
   const [myCallingData, mateCallingData, messages] = useVideoChat({
     roomid: params.roomid as unknown as number,
@@ -13,6 +15,7 @@ export default function VideoChatContainer() {
 
   return (
     <div>
+      <div>id: {queryString.parse(search).id ?? '없음'}</div>
       <div>user : {myCallingData.id}</div>
       <div>roomid : {params.roomid}</div>
       <div>myStream: {myCallingData.stream?.id}</div>
