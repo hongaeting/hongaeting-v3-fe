@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import {
   createTheme,
@@ -9,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { ThemeProvider } from '@emotion/react';
 import './index.css';
+import rootReducer from 'modules';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -17,13 +20,17 @@ const theme = createTheme({
   typography: { fontFamily: 'Noto Sans KR' },
 });
 
+const store = createStore(rootReducer);
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
           <ThemeProvider theme={theme}>
-            <App />
+            <Provider store={store}>
+              <App />
+            </Provider>
           </ThemeProvider>
         </MuiThemeProvider>
       </StylesProvider>

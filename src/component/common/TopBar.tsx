@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import { AppBar, IconButton, Toolbar } from '@material-ui/core';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 
 const TopAppBar = styled(AppBar)`
   height: 56px;

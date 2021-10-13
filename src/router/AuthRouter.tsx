@@ -6,6 +6,7 @@ import EmailFormContainer from 'containers/auth/EmailFormContainer';
 import EmailReceiveContainer from 'containers/auth/EmailReceiveContainer';
 import EmailCompleteContainer from 'containers/auth/EmailCompleteContainer';
 import SignInFormContainer from 'containers/auth/SignInFormContainer';
+import SignInCompleteContainer from 'containers/auth/SigninCompleteContainer';
 
 export default function AuthRouter() {
   return (
@@ -36,7 +37,7 @@ export default function AuthRouter() {
           <Route
             exact
             path="/auth/signin/complete"
-            component={SignInFormContainer}
+            component={SignInCompleteContainer}
           />
         </Switch>
       </DefaultContainer>
