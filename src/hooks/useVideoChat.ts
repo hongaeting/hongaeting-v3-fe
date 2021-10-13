@@ -125,7 +125,7 @@ const useVideoChat = ({
     connectMyStream();
 
     myPeer.on('open', (id: string) => {
-      socket.emit('enter-room', { roomid, userid: id });
+      socket.emit('enter-room', { roomid, userid: myPeer.id });
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

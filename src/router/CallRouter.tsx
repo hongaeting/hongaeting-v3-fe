@@ -13,7 +13,11 @@ export default function CallRouter() {
       <DefaultContainer maxWidth="sm">
         <Switch>
           <Route exact path="/call/ready" component={CallReadyContainer} />
-          <Route exact path="/call/make" component={CallMakeContainer} />
+          <Route
+            exact
+            path="/call/make/:roomId"
+            component={CallMakeContainer}
+          />
           <Route exact path="/call/receive" component={CallReceiveContainer} />
         </Switch>
       </DefaultContainer>
