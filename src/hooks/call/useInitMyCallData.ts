@@ -71,7 +71,6 @@ const useInitMyCallData = () => {
       [
         'user:calling-ended',
         () => {
-          console.log('user:calling-ended 받음');
           if (myPeer !== null) {
             myPeer.destroy();
           }
